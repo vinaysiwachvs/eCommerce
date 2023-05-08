@@ -1,6 +1,10 @@
-const express = require("express");
-require("dotenv").config();
+require('dotenv').config();
+const express = require('express');
 const app = express();
+const dbConnect = require('./config/dbconnect') 
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json());
 const PORT = process.env.PORT || 5000;
 
 const productRouter=require('./routes/product_routes');
