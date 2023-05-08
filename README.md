@@ -1,20 +1,16 @@
 # eCommerce #
 
-API Endpoints:
-
 Authentication endpoints:
 
 User registration: POST /api/auth/register
 User login: POST /api/auth/login
-User logout: POST /api/auth/logout
-
 
 Product endpoints:
 
 List all products: GET /api/products
 Get a specific product: GET /api/products/:id
 Create a new product: POST /api/products
-Update a product: PATCH/api/products/:id
+Modify a product: PATCH/api/products/:id
 Delete a product: DELETE /api/products/:id
 
 
@@ -32,29 +28,18 @@ Cart endpoints:
 Add an item to the cart: POST /api/cart
 Remove an item from the cart: DELETE /api/cart/:id
 Get the cart: GET /api/cart
-Update the cart: PUT /api/cart
 
 
 Payment endpoints:
-
 Process payment: POST /api/payment
-Retrieve payment information: GET /api/payment/:id
 
+Shipping Endpoint: 
+get shipping information : GET /api/shipping/:id
 
 Customer endpoints:
 
 Get customer information: GET /api/customers/:id
-Update customer information: PUT /api/customers/:id
-
-
-Reviews endpoints:
-
-Get all reviews for a product: GET /api/products/:id/reviews
-Get a specific review for a product: GET /api/products/:product_id/reviews/:id
-Create a review for a product: POST /api/products/:id/reviews
-Update a review for a product: PUT /api/products/:product_id/reviews/:id
-Delete a review for a product: DELETE /api/products/:product_id/reviews/:id
-
+Update customer information: PATCH /api/customers/:id
 
 Wishlist endpoints:
 

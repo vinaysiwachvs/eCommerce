@@ -7,7 +7,6 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json());
 
-app.use('/api/user',authRouter);
 app.get('/',(req,res)=>{
     res.send("hello from server side")
 })
