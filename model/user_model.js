@@ -42,6 +42,11 @@ const UserSchema = new mongoose.Schema({
                 `${props.value} need to be atleast 8 characters long contains at least a uppercase char, a lowercase char, a number and a special character(@$!%*?&)`,
         },
     },
+    joinedOn: {
+        type: Date,
+        default: Date.now(),
+        immutable: true,
+      },
 });
 
 module.exports = mongoose.model("User", UserSchema);
