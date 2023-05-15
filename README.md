@@ -2,7 +2,7 @@
 
 Authentication endpoints:
 
-User registration: POST /api/auth/register
+User registration: POST /api/auth/signup
 User login: POST /api/auth/login
 
 Product endpoints:
@@ -10,7 +10,7 @@ Product endpoints:
 List all products: GET /api/products
 Get a specific product: GET /api/products/:id
 Create a new product: POST /api/products
-Modify a product: PATCH/api/products/:id
+Modify a product: PATCH /api/products/:id
 Delete a product: DELETE /api/products/:id
 
 
