@@ -47,6 +47,31 @@ const UserSchema = new mongoose.Schema({
         default: Date.now(),
         immutable: true,
     },
+    mobile:{
+        type:String,
+        required:true,
+        maxlength:10,
+        unique:true
+      },
+      token: {
+        type: String,
+      },
+      isActive: {
+        type: Boolean,
+        default: true,
+      },
+      emailVerified:{
+        type:Boolean,
+        default:false
+      },
+      mobileVerified:{
+        type:Boolean,
+        default:false
+      },
+      isAdmin: {
+        type: Boolean,
+        default: false,
+      },
 });
 
 module.exports = mongoose.model("User", UserSchema);
