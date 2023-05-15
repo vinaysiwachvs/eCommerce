@@ -16,26 +16,12 @@ const productSchema = new mongoose.Schema({
     },
   },
 
-  shortDescription: {
+  description: {
     type: String,
     required: true,
     trim: true,
-    minlength: 1,
-    maxlength: 100,
-    validate: {
-      validator: function (v) {
-        return /^[^<>#$\\/]*[\s,.-]*[^<>#$\\/]*$/.test(v);
-      },
-      message: (props) =>
-        `${props.value} contains special characters, only alphanumeric characters and spaces are allowed!`,
-    },
-  },
-  longDescription: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-    maxlength: 1000,
+    minlength: 20,
+    maxlength: 500,
     validate: {
       validator: function (v) {
         return /^[^<>#$\\/]*[\s,.-]*[^<>#$\\/]*$/.test(v);

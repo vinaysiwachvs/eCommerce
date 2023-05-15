@@ -4,13 +4,13 @@ const router =express.Router();
 
 
 router.post("/admin/addproduct",(req,res)=>{
-  
+
     res.send("succesfully added product")
 })
 
 
 router.delete("/admin/deleteproduct",(req,res)=>{
-  
+
     res.send("succesfully delete product")
 })
 

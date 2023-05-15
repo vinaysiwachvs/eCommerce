@@ -36,7 +36,7 @@ exports.signup = async (req, res) => {
     });
 
     let info = await transporter.sendMail({
-      from: `"Message from PDHunt" <process.env.AUTH_EMAIL>`, // sender address
+      from: `"Message from eCommerce" <process.env.AUTH_EMAIL>`, // sender address
       to: email, // list of receivers
       subject: "OTP Verifictaion", // Subject line
       text: `This is your otp: ${OTP} for verification`, // plain text body
