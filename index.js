@@ -11,9 +11,12 @@ app.use(express.json());
 
 app.use('/api/user',authRouter);
 
-app.get('/',(req,res)=>{
-    res.send("hello from server side")
-})
+app.use((req, res, next) => {
+    console.log("Hello from middleware");
+    next();
+});
+
+dbConnect.initDB();
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
