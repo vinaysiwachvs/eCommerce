@@ -1,25 +1,10 @@
-// const express=require('express');
-// const router =express.Router();
+const express=require('express');
+const router =express.Router();
 
+router.route('/').get(getProduct);
+router.route('/:id').get(getProductById);
+router.route('/').post(addProduct);
+router.route('/:id').patch(modifyProduct);
+router.route('/:id').delete(deleteProduct);
 
-// router.get("/product/:id",(req,res)=>{
-//     const Products=getProductFromDB(req.params.id);
-//     console.log(Products,req.params.id)
-//     res.send(Products);
-// });
-
-// router.get("/product/all",(req,res)=>{
-//     const allProducts=getAllProductsFromDB();
-//     console.log(Products,req.params.id)
-//     res.send(allProducts);
-// });
-
-// function getAllProductsFromDB(){
-//     return [{"product nahi":1},{"product2":2},{"product3":3}];
-//     // return "hello";
-// }
-// function getProductFromDB(id){
-//     return {"product1":1}
-// }
-// module.exports = router;
-// // product cost
+module.exports = router;
