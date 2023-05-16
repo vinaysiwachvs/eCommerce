@@ -1,3 +1,4 @@
+//Error Handler
 exports.handleErrors = (err, req, res, next) => {
     console.log("In error handler ", err);
     const node_env = process.env.NODE_ENV || "development";
@@ -7,7 +8,7 @@ exports.handleErrors = (err, req, res, next) => {
         sendErrorDev(err, req, res);
     }
 };
-    
+
     function sendErrorDev(err, req, res) {
     res.status(err.status || 500).json({
         user: req.user?.name || "Unknown",
