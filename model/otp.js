@@ -4,7 +4,7 @@ const OtpSchema = new mongoose.Schema(
     email: {
       type: String,
       trim: true,
-      required: true,
+      // required: true,
       unique: true,
       lowercase: true,
       immutable: true,
@@ -18,7 +18,7 @@ const OtpSchema = new mongoose.Schema(
     },
     mobile: {
       type: String,
-      required: true,
+      // required: true,
     },
     otp: {
       type: String,
