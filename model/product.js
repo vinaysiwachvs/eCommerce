@@ -1,74 +1,77 @@
 const mongoose = require("mongoose");
 
+const reviewSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    comment: {
+        type: String,
+        required: true,
+    },
+    rating: {
+        type: Number,
+        required: true,
+    },
+}, {
+    timestamps: true,
+});
+
 const productSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-    unique: true,
-    minlength: 1,
-    validate: {
-      validator: function (v) {
-        return /^[^<>#$\\/]*[\s,.-]*[^<>#$\\/]*$/.test(v);
-      },
-      message: (props) =>
-        `${props.value} contains special characters, only alphanumeric characters and spaces are allowed!`,
+    name: {
+        type: String,
+        required: true,
+        unique: true,
     },
-  },
-
-  description: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 20,
-    maxlength: 500,
-    validate: {
-      validator: function (v) {
-        return /^[^<>#$\\/]*[\s,.-]*[^<>#$\\/]*$/.test(v);
-      },
-      message: (props) =>
-        `${props.value} contains special characters, only alphanumeric characters and spaces are allowed!`,
+    url: {
+        type: String,
+        required: true,
+        unique: true,
     },
-  },
-  url: {
-    type: String,
-    required: true,
-    trim: true,
-    unique: true,
-    match: /^(http|https):\/\/[^ "]+$/,
-  },
-
-  icon: {
-    type: String,
-    required: true,
-    trim: true,
-    match: /^(http|https):\/\/[^ "]+$/,
-  },
-  category: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
+    image: {
+        type: String,
+        required: true,
     },
-  ],
-  cost: {
-    type: Number,
-    required: true,
-  },
+    images: [String],
+    category: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: Number,
+        required: true,
+    },
+    countInStock: {
+        type: Number,
+        required: true,
+    },
+    rating: {
+        type: Number,
+        required: true,
+    },
+    numReviews: {
+        type: Number,
+        required: true,
+    },
+    reviews: [reviewSchema],
+    createdOn: {
+        type: Date,
+        default: Date.now(),
+        immutable: true,
+    },
 
-  images: [String],
-
-  createdOn: {
-    type: Date,
-    default: Date.now(),
-    immutable: true,
-  },
-
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-    immutable: true,
-  },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+        immutable: true,
+    },
+}, {
+    timestamps: true,
 });
 
 module.exports = mongoose.model("Product", productSchema);
