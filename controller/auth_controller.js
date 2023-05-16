@@ -22,6 +22,7 @@ const generateOtp = () => {
 };
 
 const sendOtpToEmail = async (email, OTP) => {
+
   const transporter = nodemailer.createTransport({ // connect with the smtp
     service: "gmail",
     auth: {
