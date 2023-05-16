@@ -66,7 +66,19 @@ const UserSchema = new mongoose.Schema({
   mobileVerified:{
     type:Boolean,
     default:false
-  }
+  },
+  cart: [
+    {
+      productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+      },
+      quantity: {
+        type: Number,
+        default: 1
+      }
+    }
+  ],
 });
 
 UserSchema.pre("save", async function (next) {

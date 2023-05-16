@@ -7,11 +7,13 @@ dbConnect.initDB();
 const bodyParser = require("body-parser");
 const authRouter = require("./routes/auth_routes");
 const productRouter = require("./routes/product_routes");
+const cartRouter = require("./routes/cart_routes");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
 app.use(errorHandler);
 
 function errorHandler(err, req, res, next) {
