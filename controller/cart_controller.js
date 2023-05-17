@@ -46,31 +46,32 @@ exports.addToCart = async (req, res) => {
 // Remove a product from the user's cart
 exports.removeFromCart = async (req, res) => {
   try {
-    const { userId } = req.user;
-    const { productId } = req.params;
+    const userId  = req.loggedInUser._id;
+    const  productId  = req.params.productId;
 
     const cart = await cartService.removeFromCart(userId, productId);
 
     res
       .status(200)
-      .json({ message: "Product removed from cart successfully.", cart });
+      .json({ message: "Product removed from cart successfully." });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to remove product from cart." });
+    res.status(400).json({ message: error.message });
   }
 };
 
 // Get the user's cart contents
 exports.getCart = async (req, res) => {
   try {
-    const { userId } = req.user;
+    // console.log(req.loggedInUser._id);
+    const  userId  = req.loggedInUser._id;
 
     const cart = await cartService.getCart(userId);
 
-    res.status(200).json({ cart });
+    res.status(200).send(cart);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to get cart contents." });
+    res.status(400).json({ message: error.message });
   }
 };
 
