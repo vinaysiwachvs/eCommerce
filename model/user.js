@@ -70,13 +70,13 @@ const UserSchema = new mongoose.Schema({
     cart: [{
         productId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Product",
+            ref: "Product"
         },
         quantity: {
             type: Number,
-            default: 1,
-        },
-    }, ],
+            default: 1
+        }
+    }]
 });
 
 UserSchema.pre("save", async function(next) {
