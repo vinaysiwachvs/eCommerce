@@ -26,3 +26,26 @@ exports.createProduct = async(req, res) => {
         res.status(400).send({ message: error.message });
     }
 };
+
+exports.getAllProducts = async (req,res) => {
+    try{
+        const products = await productService.getAllProduct();
+        return res.json(products);
+    }catch(error){
+        console.log("error in getting product ", error)
+        res.status(400).send({ message: error.message });
+    }
+};
+
+exports.getProductById = async (req,res) => {
+    try{
+        const id = req.params.id;
+        const product = await productService.getProductById(id);
+        if (!product ) {
+        res.status(404).send("Product not found");
+        }else res.status(200).json(product);
+    }catch(error){
+        console.log("error in getting product by id ", error)
+        res.status(400).send({ message: error.message });
+    }
+};
