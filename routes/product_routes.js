@@ -7,5 +7,5 @@ router.route("/").post(verifyToken, productController.createProduct);
 
 router.route("/").get(productController.getAllProducts);
 router.route("/:id").get(productController.getProductById);
-
+router.route("/:id/reviews").post(verifyToken, productController.createReview);
 module.exports = router;
