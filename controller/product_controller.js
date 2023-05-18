@@ -27,25 +27,27 @@ exports.createProduct = async(req, res) => {
     }
 };
 
-exports.getAllProducts = async (req,res) => {
-    try{
-        const products = await productService.getAllProduct();
+exports.getAllProducts = async(req, res) => {
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
+    try {
+        const products = await productService.getAllProduct(page, limit);
         return res.json(products);
-    }catch(error){
-        console.log("error in getting product ", error)
+    } catch (error) {
+        console.log("error in getting product ", error);
         res.status(400).send({ message: error.message });
     }
 };
 
-exports.getProductById = async (req,res) => {
-    try{
+exports.getProductById = async(req, res) => {
+    try {
         const id = req.params.id;
         const product = await productService.getProductById(id);
-        if (!product ) {
-        res.status(404).send("Product not found");
-        }else res.status(200).json(product);
-    }catch(error){
-        console.log("error in getting product by id ", error)
+        if (!product) {
+            res.status(404).send("Product not found");
+        } else res.status(200).json(product);
+    } catch (error) {
+        console.log("error in getting product by id ", error);
         res.status(400).send({ message: error.message });
     }
 };
