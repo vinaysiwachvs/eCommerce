@@ -15,6 +15,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
+// app.use("/api/products/:id/reviews")
 app.use(errorController.handleErrors);
 
 app.use((req, res, next) => {

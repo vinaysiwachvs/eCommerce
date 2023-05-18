@@ -46,23 +46,14 @@ const getProductById = async(id) => {
     return product;
 };
 
-const createReview = async(productId, name, comment, rating, userId) => {
+const createReview = async(productId, review) => {
     try {
         // Find the product by ID
         const product = await Product.findById(productId);
-        console.log(product);
-
+        
         if (!product) {
             throw new Error("Product not found");
-        }
-
-        // Create a new review
-        const review = {
-            name,
-            comment,
-            rating,
-            user: userId,
-        };
+        } 
 
         // Add the review to the product's reviews array
         product.reviews.push(review);
@@ -70,11 +61,14 @@ const createReview = async(productId, name, comment, rating, userId) => {
         // Calculate the new average rating for the product
         const totalReviews = product.reviews.length;
         const averageRating =
-            (product.rating * (totalReviews - 1) + rating) / totalReviews;
+
+            (product.rating * (totalReviews - 1) + review.rating) / totalReviews;
         product.rating = averageRating;
 
-        // Save the updated product
-        await product.save();
+        await Product.updateOne(
+            { _id: productId },
+            { $set: product}
+          );
 
         return { message: "Review posted successfully" };
     } catch (error) {
@@ -83,4 +77,5 @@ const createReview = async(productId, name, comment, rating, userId) => {
     }
 };
 
-module.exports = { createProduct, getProductById, getAllProduct, createReview };
+module.exports = { createProduct, getProductById, getAllProduct,createReview};
+

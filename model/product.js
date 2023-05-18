@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
-    name: {
-        type: String,
+    user : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true,
     },
     comment: {
@@ -13,6 +14,7 @@ const reviewSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+
 }, {
     timestamps: true,
 });
@@ -26,11 +28,11 @@ const productSchema = new mongoose.Schema({
     url: {
         type: String,
         required: true,
-        unique: true,
+        // unique: true,
     },
     icon: {
         type: String,
-        required: true,
+        // required: true,
     },
     images: [String],
     category: {
@@ -42,7 +44,7 @@ const productSchema = new mongoose.Schema({
     },
     cost: {
         type: Number,
-        required: true,
+        // required: true,
     },
     countInStock: {
         type: Number,
