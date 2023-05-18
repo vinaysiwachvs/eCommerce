@@ -30,7 +30,7 @@ const productSchema = new mongoose.Schema({
         required: true,
         // unique: true,
     },
-    image: {
+    icon: {
         type: String,
         // required: true,
     },
@@ -43,7 +43,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    price: {
+    cost: {
         type: Number,
         // required: true,
     },

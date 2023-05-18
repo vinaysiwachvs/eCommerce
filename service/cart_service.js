@@ -1,30 +1,30 @@
-const user = require("../model/user");
 const User = require("../model/user");
-
+const Product = require("../model/product");
 // Add a product to the user's cart
-exports.addToCart = async (userId, productId) => {
-  try {
-    const user = await User.findById(userId);
+exports.addToCart = async (userId, productId, quantity) => {
+  const product = await Product.findById(productId);
+  if (!product) throw new Error("Product not found");
+  const user = await User.findById(userId);
+  if (!user) throw new Error("User not found.");
 
-    if (!user) {
-      throw new Error("User not found.");
-    }
+  const existingProduct = await User.findOne({
+    _id: userId,
+    "cart.productId": productId,
+  });
 
-    const existingProduct = user.cart.find(
-      (item) => item.productId.toString() === productId
+  let res;
+  if (existingProduct) {
+    res = await User.updateOne(
+      { _id: userId, "cart.productId": productId },
+      { $inc: { "cart.$.quantity": 1 } }
     );
-
-    if (existingProduct) {
-      existingProduct.quantity += 1;
-    } else {
-      user.cart.push({ productId, quantity: 1 });
-    }
-
-    await user.save();
-    return user.cart;
-  } catch (error) {
-    throw new Error("Failed to add product to cart.");
+  } else {
+    res = await User.updateOne(
+      { _id: userId },
+      { $push: { cart: { productId, quantity } } }
+    );
   }
+  return res;
 };
 
 // Remove a product from the user's cart
@@ -44,7 +44,8 @@ exports.removeFromCart = async (userId, productId) => {
     },
     { new: true }
   );
-  if(res.modifiedCount== 0) throw new Error("PRoduct doesnot Exists in the cart") ;
+  if (res.modifiedCount == 0)
+    throw new Error("PRoduct doesnot Exists in the cart");
   return res;
 };
 
@@ -57,9 +58,8 @@ exports.getCart = async (userId) => {
 
 // Calculate the total price of items in the user's cart
 exports.calculateCartTotal = async (userId) => {
-  try {
     const user = await User.findById(userId).populate("cart.productId");
-
+    console.log(user.cart);
     if (!user) {
       throw new Error("User not found.");
     }
@@ -67,11 +67,10 @@ exports.calculateCartTotal = async (userId) => {
     let total = 0;
 
     user.cart.forEach((item) => {
-      total += item.productId.price * item.quantity;
+      console.log(item.productId.cost, item.quantity);
+      total += item.productId.cost * item.quantity;
     });
 
     return total;
-  } catch (error) {
-    throw new Error("Failed to calculate cart total.");
-  }
+  
 };

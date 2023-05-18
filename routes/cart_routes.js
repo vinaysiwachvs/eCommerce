@@ -12,4 +12,5 @@ router.route("/:productId").delete(verifyToken, cartController.removeFromCart);
 // Get the user's cart contents
 router.route("/").get(verifyToken, cartController.getCart);
 
+router.route('/total').get(verifyToken,cartController.calculateCartTotal);
 module.exports = router;
