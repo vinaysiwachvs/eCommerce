@@ -56,20 +56,36 @@ exports.createReview = async(req, res) => {
     try {
         // const { productId } = req.params;
         const  productId  = req.params.id;
-        const { name, comment, rating } = req.body;
-        // const userId = req.user_id;
-
-        const result = await productService.createReview(
-            productId,
-            name,
+        const { comment, rating } = req.body;
+        
+        const userId = req.loggedInUser._id;
+        const review = {
+            userId,
             comment,
-            rating,
-            // userId
-        );
+            rating            
+        };
+
+        const result = await productService.createReview(productId,review);
+
 
         res.status(201).json(result);
     } catch (error) {
         console.error("error occured in adding a review",error);
         res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+exports.getReviews = async (req,res) => {
+    try{
+
+        const  productId  = req.params.id;
+        const product = await productService.getProductById(productId);
+        console.log(product.reviews);
+        return res.status(200).json(product.reviews);
+
+    }catch(error){
+        console.log("error in getting product ", error)
+        res.status(400).send({ message: error.message });
     }
 };
