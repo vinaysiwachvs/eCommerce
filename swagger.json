@@ -1,12 +1,16 @@
 {
-    "swagger": "2.0",
+    "openapi": "3.0.0",
     "info": {
         "version": "1.0.0",
         "title": "Ecommerce Web app",
         "description": "Ecommerce Web app API"
     },
-    "host": "localhost:3000",
-    "basePath": "/api",
+    "servers": [
+        {
+            "url": "http://localhost:3000/api",
+            "description": "Ecommerce App"
+        }
+    ],
     "tags": [
         {
             "name": "Users",
@@ -15,10 +19,11 @@
         {
             "name": "Auth",
             "description": "API for authorization in the system"
+        },
+        {
+            "name": "Cart",
+            "description": "API for User's Cart in the system"
         }
-    ],
-    "schemes": [
-        "http"
     ],
     "consumes": [
         "application/json"
@@ -101,21 +106,16 @@
         },
         "/auth/logout": {
             "post": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Logout user from the system",
                 "description": "Logout user from the system",
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "auth",
-                        "description": "user token",
-                        "schema": {
-                            "$ref": "#/definitions/LogoutInput"
-                        }
-                    }
-                ],
                 "produces": [
                     "application/json"
                 ],
@@ -260,13 +260,12 @@
                         }
                     },
                     {
-                        "name": "id",
+                        "name": "otp",
                         "in": "path",
                         "required": true,
                         "description": "otp to reset password",
                         "type": "number"
                     }
-
                 ],
                 "produces": [
                     "application/json"
@@ -303,7 +302,6 @@
                             "$ref": "#/definitions/ChangePassInput"
                         }
                     }
-
                 ],
                 "produces": [
                     "application/json"
@@ -322,6 +320,150 @@
                         }
                     }
                 }
+            }
+        },
+        "/cart": {
+            "post": {
+                "security":[{"bearerAuth":[]}],
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Add product to cart",
+                "description": "Add product to cart",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "body",
+                        "description": "Product details and quantity",
+                        "schema": {
+                            "$ref": "#/definitions/CartInput"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product added to cart successfully",
+                        "schema": {
+                            "$ref": "#/definitions/LogoutResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in adding product to cart",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security":[{"bearerAuth":[]}],
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "get all products in cart",
+                "description": "get all products in cart",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All Cart Products are fetched",
+                        "schema": {
+                            "$ref": "#/definitions/AllCartProductResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in fetching cart product",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/cart/total": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "get cart total",
+                "description": "get cart total",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cart Total",
+                        "schema": {
+                            "$ref": "#/definitions/CartTotalResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in finding total ",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/cart/{productId}": {
+            "delete": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "delete cart product",
+                "description": "delete cart product",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters":[
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "required": true,
+                        "description": "id of product to be deleted",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted succesfully from cart",
+                        "schema": {
+                            "$ref": "#/definitions/LogoutResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in finding total ",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "in": "header"
             }
         }
     },
@@ -455,7 +597,9 @@
             }
         },
         "ResetPassInput": {
-            "required":["password"],
+            "required": [
+                "password"
+            ],
             "properties": {
                 "mobile": {
                     "type": "string"
@@ -464,12 +608,16 @@
                     "type": "string"
                 },
                 "password": {
-                    "type":"string"
+                    "type": "string"
                 }
             }
         },
         "ChangePassInput": {
-            "required":["token","email","password"],
+            "required": [
+                "token",
+                "email",
+                "password"
+            ],
             "properties": {
                 "token": {
                     "type": "string"
@@ -478,7 +626,91 @@
                     "type": "string"
                 },
                 "password": {
-                    "type":"string"
+                    "type": "string"
+                }
+            }
+        },
+        "Product": {
+            "required": [
+                "name",
+                "url",
+                "icon",
+                "images",
+                "description",
+                "cost"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "images": {
+                    "type": "array",
+                    "properties": {
+                        "type": "string"
+                    }
+                },
+                "category": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "cost": {
+                    "type": "number"
+                },
+                "countInStocks": {
+                    "type": "number"
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "numReviews": {
+                    "type": "number"
+                },
+                "createdOn": {
+                    "type": "string"
+                },
+                "createdBy": {
+                    "type": "string"
+                }
+            }
+        },
+        "CartInput": {
+            "required": [
+                "productId",
+                "quantity"
+            ],
+            "properties": {
+                "productId": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "number"
+                }
+            }
+        },
+        "AllCartProductResponse": {
+            "type": "array",
+            "properties": {
+                "productId": {
+                    "type": "object",
+                    "$ref": "#/definitions/Product"
+                },
+                "quantity": {
+                    "type": "number"
+                }
+            }
+        },
+        "CartTotalResponse": {
+            "properties": {
+                "total": {
+                    "type": "number"
                 }
             }
         }
