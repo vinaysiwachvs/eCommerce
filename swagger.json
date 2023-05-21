@@ -13,8 +13,8 @@
     ],
     "tags": [
         {
-            "name": "Users",
-            "description": "API for users in the system"
+            "name": "Product",
+            "description": "API for products in the system"
         },
         {
             "name": "Auth",
@@ -324,7 +324,11 @@
         },
         "/cart": {
             "post": {
-                "security":[{"bearerAuth":[]}],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "tags": [
                     "Cart"
                 ],
@@ -359,7 +363,11 @@
                 }
             },
             "get": {
-                "security":[{"bearerAuth":[]}],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "tags": [
                     "Cart"
                 ],
@@ -430,7 +438,7 @@
                 "produces": [
                     "application/json"
                 ],
-                "parameters":[
+                "parameters": [
                     {
                         "name": "productId",
                         "in": "path",
@@ -448,6 +456,187 @@
                     },
                     "400": {
                         "description": "Error in finding total ",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/product": {
+            "post": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "add product",
+                "description": "add product",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "body",
+                        "description": "product details",
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product added succesfully",
+                        "schema": {
+                            "$ref": "#/definitions/LogoutResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in finding total ",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "get all product",
+                "description": "get all product",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Products fetched succesfully",
+                        "schema": {
+                            "$ref": "#/definitions/AllProductResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Error in fetching product ",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{id}": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "get product by id",
+                "description": "get product by id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "id of product to be fetched",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product fetched succesfully",
+                        "schema": {
+                            "$ref": "#/definitions/ProductResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Error in fetching product ",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{id}/reviews": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "get all reviews of product by id",
+                "description": "get all reviews of product by id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "id of product to be fetched",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product reviews fetched succesfully",
+                        "schema": {
+                            "$ref": "#/definitions/AllReviewsResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Error in fetching product reviews",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "add review to a product",
+                "description": "add review to a product",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "id of product to which reviews will add",
+                        "type": "string"
+                    },
+                    {
+                        "name": "review",
+                        "in": "body",
+                        "description": "review details",
+                        "schema": {
+                            "$ref": "#/definitions/Reviews"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Review added succesfully",
+                        "schema": {
+                            "$ref": "#/definitions/LogoutResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Error in fetching product reviews",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -630,6 +819,19 @@
                 }
             }
         },
+        "Reviews": {
+            "properties": {
+                "user": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                }
+            }
+        },
         "Product": {
             "required": [
                 "name",
@@ -653,6 +855,12 @@
                     "type": "array",
                     "properties": {
                         "type": "string"
+                    }
+                },
+                "reviews": {
+                    "type": "array",
+                    "properties": {
+                        "$ref": "#/definitions/Reviews"
                     }
                 },
                 "category": {
@@ -712,6 +920,23 @@
                 "total": {
                     "type": "number"
                 }
+            }
+        },
+        "AllProductResponse": {
+            "type": "array",
+            "properties": {
+                "$ref": "#/definitions/Product"
+            }
+        },
+        "ProductResponse": {
+            "properties": {
+                "$ref": "#/definitions/Product"
+            }
+        },
+        "AllReviewsResponse": {
+            "type": "array",
+            "properties": {
+                "$ref": "#/definitions/AllCartProductResponse"
             }
         }
     }
