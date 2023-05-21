@@ -9,8 +9,12 @@ const authRouter = require("./routes/auth_routes");
 const productRouter = require("./routes/product_routes");
 const cartRouter = require("./routes/cart_routes");
 const errorController = require("./controller/error_controller");
+const swaggerUi = require('swagger-ui-express');
+swaggerDocument = require('./swagger.json');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+
 
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRouter);
@@ -32,6 +36,8 @@ process.on("SIGINT", () => {
 process.on("exit", () => {
     console.log("Server closed");
 });
+
+app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -63,7 +63,6 @@ exports.saveOtpToDB = async(otp) => {
 };
 
 exports.changePassword = async(token, oldPassword, newPassword) => {
-    try {
         const user = await User.findOne({ token: token });
         console.log(user);
 
@@ -82,7 +81,5 @@ exports.changePassword = async(token, oldPassword, newPassword) => {
         user.password = newPassword;
 
         await user.save();
-    } catch (error) {
-        throw error;
-    }
+        return user;
 };
