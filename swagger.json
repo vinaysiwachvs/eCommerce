@@ -25,6 +25,7 @@
             "description": "API for User's Cart in the system"
         }
     ],
+    "schemes":["http"],
     "consumes": [
         "application/json"
     ],
@@ -39,19 +40,16 @@
                 ],
                 "summary": "Sign Up new user in system",
                 "description": "Sign Up new user in system",
-                "parameters": [
-                    {
-                        "name": "user",
-                        "in": "body",
-                        "description": "User that we want to create",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
                         "schema": {
-                            "$ref": "#/definitions/User"
+                          "$ref":"#/definitions/User"
                         }
+                      }
                     }
-                ],
-                "produces": [
-                    "application/json"
-                ],
+                },
                 "responses": {
                     "201": {
                         "description": "New user is created",
@@ -75,16 +73,16 @@
                 ],
                 "summary": "Log in user in system",
                 "description": "Log in user in system",
-                "parameters": [
-                    {
-                        "name": "user",
-                        "in": "body",
-                        "description": "Log In user details",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
                         "schema": {
-                            "$ref": "#/definitions/LoginInput"
+                          "$ref":"#/definitions/LoginInput"
                         }
+                      }
                     }
-                ],
+                },
                 "produces": [
                     "application/json"
                 ],
@@ -142,16 +140,16 @@
                 ],
                 "summary": "Verify email through OTP",
                 "description": "Verify email through OTP",
-                "parameters": [
-                    {
-                        "name": "Email and OTP",
-                        "in": "body",
-                        "description": "Email and OTP",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
                         "schema": {
-                            "$ref": "#/definitions/VerifyEmailInput"
+                          "$ref":"#/definitions/VerifyEmailInput"
                         }
+                      }
                     }
-                ],
+                },
                 "produces": [
                     "application/json"
                 ],
@@ -178,16 +176,16 @@
                 ],
                 "summary": "Verify mobile through OTP",
                 "description": "Verify mobile through OTP",
-                "parameters": [
-                    {
-                        "name": "mobile and OTP",
-                        "in": "body",
-                        "description": "mobile and OTP",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
                         "schema": {
-                            "$ref": "#/definitions/VerifyMobileInput"
+                          "$ref":"#/definitions/VerifyMobileInput"
                         }
+                      }
                     }
-                ],
+                },
                 "produces": [
                     "application/json"
                 ],
@@ -214,16 +212,16 @@
                 ],
                 "summary": "get link to reset password",
                 "description": "get link to reset password",
-                "parameters": [
-                    {
-                        "name": "mobile or email",
-                        "in": "body",
-                        "description": "mobile or email",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
                         "schema": {
-                            "$ref": "#/definitions/ForgotPassInput"
+                          "$ref":"#/definitions/ForgotPassInput"
                         }
+                      }
                     }
-                ],
+                },
                 "produces": [
                     "application/json"
                 ],
@@ -250,15 +248,17 @@
                 ],
                 "summary": "reset password",
                 "description": "reset password",
-                "parameters": [
-                    {
-                        "name": "mobile/email and password",
-                        "in": "body",
-                        "description": "mobile/email and password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
                         "schema": {
-                            "$ref": "#/definitions/ResetPassInput"
+                          "$ref":"#/definitions/ResetPassInput"
                         }
-                    },
+                      }
+                    }
+                },
+                "parameters": [
                     {
                         "name": "otp",
                         "in": "path",
@@ -272,13 +272,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Email verified Succesfully",
+                        "description": "Password resetted Succesfully",
                         "schema": {
                             "$ref": "#/definitions/LogoutResponse"
                         }
                     },
                     "400": {
-                        "description": "Error in mobile verification",
+                        "description": "Error in resetting password",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -293,28 +293,28 @@
                 ],
                 "summary": "change password",
                 "description": "change password",
-                "parameters": [
-                    {
-                        "name": "token, email and new password",
-                        "in": "body",
-                        "description": "Enter token, email and new password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
                         "schema": {
-                            "$ref": "#/definitions/ChangePassInput"
+                          "$ref":"#/definitions/ChangePassInput"
                         }
+                      }
                     }
-                ],
+                },
                 "produces": [
                     "application/json"
                 ],
                 "responses": {
                     "200": {
-                        "description": "Email verified Succesfully",
+                        "description": "Password Changed Succesfully",
                         "schema": {
                             "$ref": "#/definitions/LogoutResponse"
                         }
                     },
                     "400": {
-                        "description": "Error in mobile verification",
+                        "description": "Error in changing password",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -334,16 +334,16 @@
                 ],
                 "summary": "Add product to cart",
                 "description": "Add product to cart",
-                "parameters": [
-                    {
-                        "name": "product",
-                        "in": "body",
-                        "description": "Product details and quantity",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
                         "schema": {
-                            "$ref": "#/definitions/CartInput"
+                          "$ref":"#/definitions/CartInput"
                         }
+                      }
                     }
-                ],
+                },
                 "produces": [
                     "application/json"
                 ],
@@ -478,16 +478,16 @@
                 "produces": [
                     "application/json"
                 ],
-                "parameters": [
-                    {
-                        "name": "product",
-                        "in": "body",
-                        "description": "product details",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
                         "schema": {
-                            "$ref": "#/definitions/Product"
+                          "$ref":"#/definitions/Product"
                         }
+                      }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Product added succesfully",
@@ -611,6 +611,16 @@
                 "produces": [
                     "application/json"
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "$ref":"#/definitions/Reviews"
+                        }
+                      }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "id",
@@ -618,14 +628,6 @@
                         "required": true,
                         "description": "id of product to which reviews will add",
                         "type": "string"
-                    },
-                    {
-                        "name": "review",
-                        "in": "body",
-                        "description": "review details",
-                        "schema": {
-                            "$ref": "#/definitions/Reviews"
-                        }
                     }
                 ],
                 "responses": {
@@ -757,7 +759,7 @@
                     "type": "string"
                 },
                 "otp": {
-                    "type": "number"
+                    "type": "string"
                 }
             }
         },
@@ -771,7 +773,7 @@
                     "type": "string"
                 },
                 "otp": {
-                    "type": "number"
+                    "type": "string"
                 }
             }
         },
