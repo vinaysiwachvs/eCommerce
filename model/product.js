@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
-    user : {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true,
@@ -14,7 +14,6 @@ const reviewSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-
 }, {
     timestamps: true,
 });
