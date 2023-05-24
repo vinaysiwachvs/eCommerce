@@ -89,3 +89,14 @@ exports.getReviews = async (req,res) => {
         res.status(400).send({ message: error.message });
     }
 };
+
+exports.deleteProduct = async (req,res) => {
+    try{
+        const productId = req.params.id;
+       const result= await productService.deleteProduct(productId);
+       res.status(201).send({ message: "result" });
+    }catch{
+        console.log("error in deleting product ", error)
+        res.status(500).send({ message: error.message });
+    }
+}

@@ -27,8 +27,6 @@ const createReview = async(productId, review) => {
             throw new Error("Product not found");
         } 
         
-    
-
         // Add the review to the product's reviews array
         product.reviews.push(review);
 
@@ -50,5 +48,20 @@ const createReview = async(productId, review) => {
     }
 };
 
+
+const deleteProduct = async (productId) => {
+    try{
+        
+       const deletedProduct= await Product.findByIdAndRemove(productId);
+       if(!deletedProduct){
+        console.log("product not found");
+        return { message: "product do not exist" };
+       }
+       else  return { message: "product deleted successfully" };
+    } catch(error){
+        console.error(error);
+        throw new Error("Failed to delete review");
+    }
+}
 
 module.exports = { createProduct, getProductById, getAllProduct,createReview};

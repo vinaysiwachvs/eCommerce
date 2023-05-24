@@ -8,5 +8,5 @@ router.route("/:id/reviews").post( verifyToken,productController.createReview);
 router.route("/:id/reviews").get( productController.getReviews);
 router.route("/").get(productController.getAllProducts);
 router.route("/:id").get(productController.getProductById);
-
+router.route("/:id").delete(productController.deleteProduct);
 module.exports = router;
