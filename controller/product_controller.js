@@ -91,10 +91,10 @@ exports.deleteProduct = async(req, res) => {
         const productId = req.params.id;
 
         const userid = req.loggedInUser;
-       const result= await productService.deleteProduct(productId,userid);
-       res.status(201).send({ message: result });
-    }catch{
-        console.log("error in deleting product ", error)
+        const result = await productService.deleteProduct(productId, userid);
+        res.status(201).send({ message: result });
+    } catch (error) {
+        console.log("error in deleting product ", error);
 
         res.status(500).send({ message: error.message });
     }

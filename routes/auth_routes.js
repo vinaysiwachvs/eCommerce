@@ -9,7 +9,7 @@ const {
     verifyOtpByMobile,
     changePassword,
     forgotPassword,
-    resetPassword
+    resetPassword,
 } = require("../controller/auth_controller.js");
 
 router.route("/signup").post(signup);
