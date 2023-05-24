@@ -42,10 +42,6 @@ const getProductById = async (id) => {
   return product;
 };
 
-const createReview = async (productId, review) => {
-    // Find the product by ID
-    const product = await Product.findById(productId);
-
 const createReview = async(productId, review) => {
     try {
         // Find the product by ID
@@ -74,24 +70,12 @@ const createReview = async(productId, review) => {
         console.error(error);
         throw new Error("Failed to post review");
     }
-
-    // Add the review to the product's reviews array
-    product.reviews.push(review);
-
-    // Calculate the new average rating for the product
-    const totalReviews = product.reviews.length;
-    const averageRating =
-      (product.rating * (totalReviews - 1) + review.rating) / totalReviews;
-    product.rating = averageRating;
-
-    await Product.updateOne({ _id: productId }, { $set: product });
-
-    return "Review posted successfully";
 };
 
-const deleteProduct = async (productId) => {
+const deleteProduct = async (productId,userId) => {
     try{
-        
+       const product = await Product.findById(id);
+       if(!product.createdBy==userId) throw new Error("Not authorized to delete product");
        const deletedProduct= await Product.findByIdAndRemove(productId);
        if(!deletedProduct){
         console.log("product not found");
@@ -104,4 +88,4 @@ const deleteProduct = async (productId) => {
     }
 }
 
-module.exports = { createProduct, getProductById, getAllProduct,createReview};
+module.exports = { createProduct, getProductById, getAllProduct,createReview,deleteProduct}
