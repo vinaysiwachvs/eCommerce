@@ -46,8 +46,33 @@ const createReview = async (productId, review) => {
     // Find the product by ID
     const product = await Product.findById(productId);
 
-    if (!product) {
-      throw new Error("Product not found");
+const createReview = async(productId, review) => {
+    try {
+        // Find the product by ID
+        const product = await Product.findById(productId);
+        
+        if (!product) {
+            throw new Error("Product not found");
+        } 
+        
+        // Add the review to the product's reviews array
+        product.reviews.push(review);
+
+        // Calculate the new average rating for the product
+        const totalReviews = product.reviews.length;
+        const averageRating =
+            (product.rating * (totalReviews - 1) + review.rating) / totalReviews;
+        product.rating = averageRating;
+
+        await Product.updateOne(
+            { _id: productId },
+            { $set: product}
+          );
+
+        return { message: "Review posted successfully" };
+    } catch (error) {
+        console.error(error);
+        throw new Error("Failed to post review");
     }
 
     // Add the review to the product's reviews array
@@ -64,4 +89,19 @@ const createReview = async (productId, review) => {
     return "Review posted successfully";
 };
 
-module.exports = { createProduct, getProductById, getAllProduct, createReview };
+const deleteProduct = async (productId) => {
+    try{
+        
+       const deletedProduct= await Product.findByIdAndRemove(productId);
+       if(!deletedProduct){
+        console.log("product not found");
+        return { message: "product do not exist" };
+       }
+       else  return { message: "product deleted successfully" };
+    } catch(error){
+        console.error(error);
+        throw new Error("Failed to delete review");
+    }
+}
+
+module.exports = { createProduct, getProductById, getAllProduct,createReview};
